@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sci-Fi Q&A Bot</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #111; color: #eee; }
+    input, button, textarea {
+      width: 100%;
+      margin: 1rem 0;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button { background: #333; color: white; border: none; cursor: pointer; }
+    button:hover { background: #555; }
+    .response { white-space: pre-wrap; background: #222; padding: 1rem; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Sci-Fi Bot</h1>
+  <p>Задай вопрос по научно-фантастическим сериалам:</p>
+  <input id="question" placeholder="Например: What is a TARDIS?" />
+  <button onclick="ask()">Задать вопрос</button>
+  <h2>Ответ:</h2>
+  <div id="answer" class="response">Ожидается ввод...</div>
+
+  <script>
+    async function ask() {
+      const question = document.getElementById("question").value;
+      const answerEl = document.getElementById("answer");
+
+      answerEl.textContent = "Получаю ответ от модели...";
+      try {
+        const response = await fetch("http://46.226.166.110/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: question }),
+        });
+
+        const data = await response.json();
+        answerEl.textContent = data.answer || "Модель не вернула ответ.";
+      } catch (err) {
+        answerEl.textContent = "Ошибка при запросе к серверу.";
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
