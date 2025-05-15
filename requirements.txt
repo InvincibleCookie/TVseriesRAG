@@ -1,0 +1,12 @@
+# Бот и Telegram API
+python-telegram-bot==20.7
+
+# Модель и эмбеддинги
+sentence-transformers
+faiss-cpu
+datasets
+
+# API (FastAPI)
+fastapi
+uvicorn
+requests
